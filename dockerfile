@@ -1,20 +1,27 @@
 # Base Airflow image
 FROM dockerreg.shonizcloud.ir/apache/airflow:2.1.1
 
+COPY sources.list /etc/apt/sources.list
 # Switch to root to install system packages
 USER root
 
 # Install system dependencies, Xvfb, and fonts
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        freetds-dev \
+        freetds-bin \
+        libssl-dev \
+        unixodbc-dev \
         wget \
         gnupg \
         unzip \
         xvfb \
         libxi6 \
-        libgconf \
+        libgconf-2-4 \
         libnss3 \
         libxss1 \
+        jq \
+        build-essential \
         libasound2 \
         fonts-noto-cjk \
         fonts-noto-cjk-extra \
@@ -33,23 +40,33 @@ RUN curl -fsSL https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dea
     apt-get install -y google-chrome-stable --allow-unauthenticated && \
     rm -rf /var/lib/apt/lists/*
 
-# Install matching ChromeDriver dynamically
-RUN CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+') && \
-    CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION%.*}") && \
-    curl -fsSLO "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
-    unzip chromedriver_linux64.zip && \
-    mv chromedriver /usr/local/bin/ && \
+
+    # Install compatible ChromeDriver
+RUN set -ex && \
+    FULL_VERSION=$(google-chrome --version | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+') && \
+    MAJOR_VERSION=$(echo "$FULL_VERSION" | cut -d. -f1) && \
+    MATCHING_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json \
+      | jq -r --arg MAJOR "$MAJOR_VERSION." \
+         '.versions | map(select(.version | startswith($MAJOR))) | last.version') && \
+    echo "Resolved ChromeDriver version: $MATCHING_VERSION" && \
+    wget -q "https://storage.googleapis.com/chrome-for-testing-public/${MATCHING_VERSION}/linux64/chromedriver-linux64.zip" -O chromedriver.zip && \
+    unzip chromedriver.zip -d /usr/local/bin && \
+    mv /usr/local/bin/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm chromedriver_linux64.zip
+    rm -rf chromedriver.zip /usr/local/bin/chromedriver-linux64
+
 
 # Install required Python packages
 RUN pip install --no-cache-dir \
-    selenium==4.15.2 \
-    beautifulsoup4==4.12.2 \
-    pandas==2.1.3 \
-    pendulum==2.1.2 \
-    lxml==4.9.3 \
-    webdriver-manager==4.0.1
+    selenium \
+    beautifulsoup4 \
+    pandas \
+    pendulum \
+    lxml \
+    webdriver-manager
+
+# Install pymssql (requires freetds-dev to be present)
+RUN pip install --no-cache-dir pymssql
 
 # Set environment variables
 ENV CHROME_BIN=/usr/bin/google-chrome
