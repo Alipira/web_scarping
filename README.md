@@ -21,7 +21,7 @@ Docker Compose
 Git
 
 ---------------------------
-Setup Instructions
+## Setup Instructions
 
 Clone the repository
 git clone https://github.com/Alipira/web_scarping.git
@@ -40,10 +40,8 @@ Stop the services
 To shut down, run:
 docker-compose down
 
-
-
-
-Usage
+---------------------------
+## Usage
 Manage the pipeline via the Airflow web interface:
 
 Enable the DAG: On the DAGs page, toggle the dollar_rate_etl DAG to "On".
@@ -52,7 +50,8 @@ Monitor: View run statuses and logs to ensure successful execution.
 
 Data is loaded into the SQL Server database, accessible with details from the configuration section.
 
-Configuration
+---------------------------
+## Configuration
 The pipeline connects to a SQL Server database. The default setup includes a containerized SQL Server with preset credentials. For an external database, edit docker-compose.yml under the airflow service with these variables:
 
 SQL_SERVER_HOST: Hostname or IP (default: db)
@@ -63,7 +62,8 @@ SQL_SERVER_DATABASE: Database name (default: exchange_rates)
 
 Use a strong password for security.
 
-Project Structure
+---------------------------
+## Project Structure
 web_scarping/
 ├── dags/                   # Airflow DAG definitions
 │   └── dollar_rate_etl.py  # Main ETL workflow
@@ -81,19 +81,20 @@ Dockerfile: Airflow image configuration.
 docker-compose.yml: Multi-container setup.
 requirements.txt: Project dependencies.
 
-
-Contributing
+---------------------------
+## Contributing
 Contributions are appreciated! Submit issues or pull requests for enhancements or fixes.
 
-License
+---------------------------
+## License
 This project uses the MIT License for custom code—see LICENSE for details.
 Dependencies:
 
 Apache Airflow: Apache-2.0
 Docker Compose: Apache-2.0
 
-
-Acknowledgments
+---------------------------
+## Acknowledgments
 Built with these awesome tools:
 
 Selenium
