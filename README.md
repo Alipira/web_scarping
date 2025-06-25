@@ -1,7 +1,7 @@
 💰 Dollar-Rate ETL Pipeline with Apache Airflow 🧩
 Automates scraping of USD→IRR exchange rates using Selenium/BeautifulSoup, orchestrated by Airflow, and loads results into a SQL Server warehouse.
-
-Table of Contents
+---------------------------
+## Table of Contents
 
 Prerequisites
 Setup Instructions
@@ -12,15 +12,15 @@ Contributing
 License
 Acknowledgments
 
-
-Prerequisites
+---------------------------
+## Prerequisites
 Before you begin, ensure you have the following installed:
 
 Docker
 Docker Compose
 Git
 
-
+---------------------------
 Setup Instructions
 
 Clone the repository
