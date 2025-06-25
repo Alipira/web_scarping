@@ -1,0 +1,12 @@
+[tool.license_scanner]
+allowed-licenses = [
+  "MIT",
+  "Apache Software License",
+  "Apache Software License 2",
+  "Apache-2.0",
+  "BSD License",
+  "BSD 3-Clause License",
+  "ISC",
+  "Public Domain"
+]
+allowed-packages = ["license_scanner"]
