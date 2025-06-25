@@ -6,19 +6,6 @@ Automates scraping of USD→IRR exchange rates using Selenium/BeautifulSoup, orc
 
 ## 📁 Repo Structure
 
-.
-├── dags/
-│ └── dollar_rate_dag.py
-├── scraper/
-│ └── scrape_dollar_rate.py
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── README.md
-└── .github/
-└── workflows/
-└── license-check.yml
----
 
 ## 🚀 Setup Instructions
 
