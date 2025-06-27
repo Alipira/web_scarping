@@ -1,5 +1,5 @@
 # Base Airflow image
-FROM dockerreg.shonizcloud.ir/apache/airflow:2.1.1
+FROM dockerreg.mycloud.ir/apache/airflow:2.1.1
 
 COPY sources.list /etc/apt/sources.list
 # Switch to root to install system packages
