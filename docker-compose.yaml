@@ -44,7 +44,7 @@
 #version: '3'
 x-airflow-common:
   &airflow-common
-  image: dockerreg.mycloud.ir/apache/my_airflow:2.1.1 #${AIRFLOW_IMAGE_NAME:-apache/airflow:2.1.1}
+  image: dockerreg.shonizcloud.ir/apache/my_airflow:2.1.1 #${AIRFLOW_IMAGE_NAME:-apache/airflow:2.1.1}
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
@@ -69,7 +69,7 @@ x-airflow-common:
 
 services:
   postgres:
-    image: dockerreg.mycloud.ir/postgres:13
+    image: dockerreg.shonizcloud.ir/postgres:13
     environment:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
@@ -83,7 +83,7 @@ services:
     restart: always
 
   redis:
-    image: dockerreg.mycloud.ir/redis:latest
+    image: dockerreg.shonizcloud.ir/redis:latest
     ports:
       - 6379:6379
     healthcheck:
